@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+
+    <h2>Login</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <label>Username:</label><br>
+        <input type="text" name="username" required><br><br>
+
+        <label>Password:</label><br>
+        <input type="password" id="password" name="password" required>
+
+        <!-- 👇 Show/Hide Checkbox -->
+        <input type="checkbox" onclick="togglePassword()"> Show Password<br><br>
+
+        <button type="submit">Login</button>
+    </form>
+
+    <p>Don't have an account? 
+        <a href="{% url 'register' %}">Register</a>
+    </p>
+
+    <!-- 🔥 JavaScript -->
+    <script>
+        function togglePassword() {
+            var pass = document.getElementById("password");
+
+            if (pass.type === "password") {
+                pass.type = "text";
+            } else {
+                pass.type = "password";
+            }
+        }
+    </script>
+
+</body>
+</html>

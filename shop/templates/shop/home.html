@@ -1,0 +1,248 @@
+{% extends 'shop/base.html' %}
+
+{% block content %}
+
+<style>
+
+    .welcome{
+        color:#60a5fa;
+        margin-bottom:20px;
+    }
+
+    .banner{
+        background:linear-gradient(to right,#2563eb,#1e3a8a);
+        color:white;
+        padding:40px;
+        border-radius:15px;
+        text-align:center;
+        margin-bottom:30px;
+    }
+
+    .banner h1{
+        font-size:40px;
+        margin-bottom:10px;
+    }
+
+    .category-bar{
+        display:flex;
+        gap:10px;
+        flex-wrap:wrap;
+        margin-bottom:30px;
+    }
+
+    .category-bar a{
+        text-decoration:none;
+        background:#1f2937;
+        color:white;
+        padding:10px 15px;
+        border-radius:10px;
+        transition:0.3s;
+    }
+
+    .category-bar a:hover{
+        background:#2563eb;
+    }
+
+    /* ===== PRODUCTS GRID ===== */
+
+    .products{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+        gap:25px;
+    }
+
+    /* ===== PRODUCT CARD ===== */
+
+    .product{
+        background:#1e1e1e;
+        border-radius:15px;
+        padding:20px;
+        text-align:center;
+        transition:0.3s;
+        box-shadow:0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .product:hover{
+        transform:translateY(-5px);
+    }
+
+    .product img{
+        width:180px;
+        height:220px;
+        object-fit:contain;
+        margin-bottom:15px;
+    }
+
+    .product h2{
+        margin-bottom:10px;
+    }
+
+    .price{
+        color:#22c55e;
+        font-size:22px;
+        font-weight:bold;
+        margin-bottom:10px;
+    }
+
+    .desc{
+        color:#d1d5db;
+        margin-bottom:10px;
+    }
+
+    /* ===== RATING ===== */
+
+    .rating{
+        color:gold;
+        font-size:20px;
+        margin-bottom:15px;
+    }
+
+    /* ===== BUTTONS ===== */
+
+    .btn{
+        background:#2563eb;
+        color:white;
+        border:none;
+        padding:10px 18px;
+        border-radius:10px;
+        cursor:pointer;
+        margin:5px;
+        transition:0.3s;
+    }
+
+    .btn:hover{
+        transform:scale(1.05);
+    }
+
+    .buy-btn{
+        background:#16a34a;
+    }
+
+    .details-btn{
+        background:#111827;
+    }
+
+    /* ===== RESPONSIVE DESIGN ===== */
+
+    @media(max-width:768px){
+
+        .products{
+            grid-template-columns:1fr;
+        }
+
+        .product{
+            width:100%;
+        }
+
+        .banner h1{
+            font-size:28px;
+        }
+
+        .category-bar{
+            justify-content:center;
+        }
+    }
+
+</style>
+
+
+{% if user.is_authenticated %}
+
+    <h3 class="welcome">
+        👤 Welcome {{ user.username }}
+    </h3>
+
+{% endif %}
+
+
+<!-- ===== BANNER ===== -->
+
+<div class="banner">
+
+    <h1>📱 Online Mobile Store</h1>
+
+    <p>
+        Buy Latest Smartphones At Best Prices
+    </p>
+
+</div>
+
+
+<!-- ===== CATEGORY FILTER ===== -->
+
+<div class="category-bar">
+
+    <a href="/">All</a>
+
+    <a href="/?category=Samsung">Samsung</a>
+
+    <a href="/?category=Apple">Apple</a>
+
+    <a href="/?category=Vivo">Vivo</a>
+
+    <a href="/?category=Oppo">Oppo</a>
+
+    <a href="/?category=OnePlus">OnePlus</a>
+
+    <a href="/?category=Redmi">Redmi</a>
+
+    <a href="/?category=IQOO">IQOO</a>
+
+</div>
+
+
+<!-- ===== PRODUCTS ===== -->
+
+<div class="products">
+
+    {% for product in products %}
+
+    <div class="product">
+
+        <img src="{{ product.image.url }}">
+
+        <h2>{{ product.name }}</h2>
+
+        <p class="price">
+            ₹{{ product.price }}
+        </p>
+
+        <p class="desc">
+            {{ product.description|truncatechars:80 }}
+        </p>
+
+
+        <!-- ===== PRODUCT RATING ===== -->
+
+        <div class="rating">
+            ⭐⭐⭐⭐☆
+        </div>
+
+
+        <a href="{% url 'product_detail' product.id %}">
+            <button class="btn details-btn">
+                View Details
+            </button>
+        </a>
+
+        <br>
+
+        <a href="{% url 'add_to_cart' product.id %}">
+            <button class="btn">
+                🛒 Add To Cart
+            </button>
+        </a>
+
+        <a href="{% url 'buy_now' product.id %}">
+            <button class="btn buy-btn">
+                Buy Now
+            </button>
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}

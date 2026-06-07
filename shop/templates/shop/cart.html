@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Cart</title>
+
+    <style>
+
+        body{
+            font-family: Arial;
+            background: #f4f4f4;
+            padding: 30px;
+        }
+
+        h1{
+            text-align: center;
+        }
+
+        .cart-container{
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .cart-box{
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        .cart-box img{
+            width: 150px;
+            border-radius: 10px;
+        }
+
+        .details{
+            flex: 1;
+        }
+
+        .btn{
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .remove-btn{
+            background: red;
+            color: white;
+        }
+
+        .checkout-btn{
+            background: green;
+            color: white;
+            padding: 12px 25px;
+            font-size: 18px;
+        }
+
+    </style>
+
+</head>
+<body>
+
+    <h1>🛒 My Cart</h1>
+
+    <div class="cart-container">
+
+        {% if items %}
+
+            {% for item in items %}
+
+            <div class="cart-box">
+
+                <img src="{{ item.product.image.url }}">
+
+                <div class="details">
+
+                    <h2>{{ item.product.name }}</h2>
+
+                    <p>Price: ₹{{ item.product.price }}</p>
+
+                    <p>
+
+                        <a href="{% url 'update_quantity' item.id 'decrease' %}">
+                            <button class="btn">-</button>
+                        </a>
+
+                        {{ item.quantity }}
+
+                        <a href="{% url 'update_quantity' item.id 'increase' %}">
+                            <button class="btn">+</button>
+                        </a>
+
+                    </p>
+
+                    <p>
+                        Total:
+                        ₹{{ item.product.price|floatformat:2 }}
+                    </p>
+
+                    <a href="{% url 'remove_from_cart' item.id %}">
+                        <button class="btn remove-btn">
+                            Remove
+                        </button>
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+            <h2>Grand Total: ₹{{ total }}</h2>
+
+            <a href="{% url 'checkout' %}">
+                <button class="checkout-btn">
+                    Checkout
+                </button>
+            </a>
+
+        {% else %}
+
+            <h2>Your Cart is Empty</h2>
+
+        {% endif %}
+
+    </div>
+
+</body>
+</html>
