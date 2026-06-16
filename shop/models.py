@@ -5,20 +5,26 @@ from django.contrib.auth.models import User
 class Product(models.Model):
 
     CATEGORY_CHOICES = (
-        ('Samsung', 'Samsung'),
-        ('Apple', 'Apple'),
-        ('Vivo', 'Vivo'),
-        ('Oppo', 'Oppo'),
-        ('OnePlus', 'OnePlus'),
-        ('Redmi', 'Redmi'),
-        ('IQOO', 'IQOO'),
-    )
+    ('Samsung', 'Samsung'),
+    ('Apple', 'Apple'),
+    ('OnePlus', 'OnePlus'),
+    ('Redmi', 'Redmi'),
+    ('IQOO', 'IQOO'),
+    ('Realme', 'Realme'),
+    ('Google', 'Google'),
+    ('ASUS', 'ASUS'),
+    ('Vivo', 'Vivo'),
+    ('Oppo', 'Oppo'),
+)
 
     name = models.CharField(max_length=200)
     price = models.FloatField()
     description = models.TextField()
     image = models.ImageField(upload_to='products/')
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES)
+
+    # Rating field (1 to 5 stars)
+    rating = models.FloatField(default=4.0)
 
     def __str__(self):
         return self.name

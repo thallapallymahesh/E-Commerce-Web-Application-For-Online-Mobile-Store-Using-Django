@@ -215,8 +215,29 @@
         <!-- ===== PRODUCT RATING ===== -->
 
         <div class="rating">
-            ⭐⭐⭐⭐☆
-        </div>
+
+    {% if product.rating >= 5 %}
+        ⭐⭐⭐⭐⭐
+
+    {% elif product.rating >= 4.5 %}
+        ⭐⭐⭐⭐½
+
+    {% elif product.rating >= 4 %}
+        ⭐⭐⭐⭐☆
+
+    {% elif product.rating >= 3.5 %}
+        ⭐⭐⭐½☆
+
+    {% elif product.rating >= 3 %}
+        ⭐⭐⭐☆☆
+
+    {% else %}
+        ⭐⭐☆☆☆
+    {% endif %}
+
+    ({{ product.rating }})
+
+</div>
 
 
         <a href="{% url 'product_detail' product.id %}">
